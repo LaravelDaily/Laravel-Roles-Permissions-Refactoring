@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::resource('posts', \App\Http\Controllers\PostsController::class)->middleware('auth');
+Route::resource('posts', \App\Http\Controllers\PostController::class)->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

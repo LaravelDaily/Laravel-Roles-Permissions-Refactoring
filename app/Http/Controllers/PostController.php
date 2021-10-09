@@ -6,11 +6,11 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 
-class PostsController extends Controller
+class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::query()->latest()->paginate();
+        $posts = Post::latest()->paginate();
 
         return view('posts.index', compact('posts'));
     }
@@ -22,7 +22,7 @@ class PostsController extends Controller
 
     public function store(PostRequest $request)
     {
-        Post::query()->create($request->validated());
+        Post::create($request->validated());
 
         return redirect()->route('posts.index');
     }
