@@ -8,6 +8,11 @@ use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isAdmin')->only('destroy');
+    }
+
     public function index()
     {
         $posts = Post::latest()->paginate();
