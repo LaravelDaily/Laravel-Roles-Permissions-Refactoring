@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])->name('users.index');
+Route::resource('posts', \App\Http\Controllers\PostsController::class)->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
