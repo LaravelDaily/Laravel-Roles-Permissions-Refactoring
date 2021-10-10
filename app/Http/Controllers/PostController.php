@@ -8,6 +8,11 @@ use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('isAdmin')->only('destroy');
+    }
+
     public function index()
     {
         $posts = Post::latest()->paginate();
@@ -46,8 +51,6 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        $this->middleware('isAdmin')->only('destroy');
-
         $post->delete();
 
         return redirect()->route('posts.index');
