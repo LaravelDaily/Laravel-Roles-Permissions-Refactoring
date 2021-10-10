@@ -41,14 +41,16 @@
                                                 href="{{ route('posts.edit', $post) }}">
                                             Edit
                                         </a>
-                                        <form method="POST" action="{{ route('posts.destroy', $post) }}"
-                                              onsubmit="return confirm('Are you sure?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <x-button class="flex-inline">
-                                                Delete
-                                            </x-button>
-                                        </form>
+                                        @if(auth()->user()->is_admin)
+                                            <form method="POST" action="{{ route('posts.destroy', $post) }}"
+                                                  onsubmit="return confirm('Are you sure?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <x-button class="flex-inline">
+                                                    Delete
+                                                </x-button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
