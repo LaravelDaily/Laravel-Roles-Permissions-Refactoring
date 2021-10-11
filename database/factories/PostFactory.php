@@ -13,7 +13,8 @@ class PostFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(),
-            'post_text' => $this->faker->text()
+            'post_text' => $this->faker->text(),
+            'is_published' => false,
         ];
     }
 }

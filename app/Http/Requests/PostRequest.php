@@ -11,6 +11,7 @@ class PostRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'post_text' => ['required'],
+            'is_published' => ['boolean'],
         ];
     }
 

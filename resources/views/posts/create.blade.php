@@ -34,6 +34,14 @@
                                     name="post_text">{{ old('post_text') }}</textarea>
                         </div>
 
+                        @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('publisher'))
+                            <div class="flex mt-4">
+                                <x-label for="is_published" :value="__('Is published')"/>
+
+                                <x-checkbox id="is_published" value="1" class="block ml-2" name="is_published" :checked="old('is_published')" />
+                            </div>
+                        @endif
+
                         <x-button class="mt-4">
                             {{ __('Submit') }}
                         </x-button>

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
+use Illuminate\Validation\ValidationException;
 
 class PostController extends Controller
 {
@@ -27,7 +27,15 @@ class PostController extends Controller
 
     public function store(PostRequest $request)
     {
-        Post::create($request->validated());
+        throw_if(auth()->user()->hasRole('user') && $request->is_published == true,
+            ValidationException::withMessages(['is_published' => 'User cannot publish post'])
+        );
+
+        Post::create([
+            'title' => $request->title,
+            'post_text' => $request->post_text,
+            'is_published' => (bool)$request->is_published,
+        ]);
 
         return redirect()->route('posts.index');
     }
@@ -44,7 +52,15 @@ class PostController extends Controller
 
     public function update(PostRequest $request, Post $post)
     {
-        $post->update($request->validated());
+        throw_if(auth()->user()->hasRole('user') && $request->is_published == true,
+            ValidationException::withMessages(['is_published' => 'User cannot publish post'])
+        );
+
+        $post->update([
+            'title' => $request->title,
+            'post_text' => $request->post_text,
+            'is_published' => (bool)$request->is_published,
+        ]);
 
         return redirect()->route('posts.index');
     }
