@@ -17,9 +17,10 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Route::resource('posts', \App\Http\Controllers\PostController::class)->middleware('auth');
 
 Route::middleware('auth')->group(function () {
+    Route::resource('posts', \App\Http\Controllers\PostController::class);
+
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
