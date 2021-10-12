@@ -41,7 +41,7 @@
                                                 href="{{ route('posts.edit', $post) }}">
                                             Edit
                                         </a>
-                                        @if(auth()->user()->role_id == \App\Models\User::ROLE_ADMIN)
+                                        @can('delete', $post)
                                             <form method="POST" action="{{ route('posts.destroy', $post) }}"
                                                   onsubmit="return confirm('Are you sure?');">
                                                 @csrf
@@ -50,7 +50,7 @@
                                                     Delete
                                                 </x-button>
                                             </form>
-                                        @endif
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach
