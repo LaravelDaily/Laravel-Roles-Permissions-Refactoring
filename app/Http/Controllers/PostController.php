@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Http\Requests\PostRequest;
-use Illuminate\Validation\ValidationException;
 
 class PostController extends Controller
 {
@@ -27,10 +26,6 @@ class PostController extends Controller
 
     public function store(PostRequest $request)
     {
-        throw_if(auth()->user()->hasRole('user') && $request->is_published == true,
-            ValidationException::withMessages(['is_published' => 'User cannot publish post'])
-        );
-
         Post::create([
             'title' => $request->title,
             'post_text' => $request->post_text,
@@ -52,10 +47,6 @@ class PostController extends Controller
 
     public function update(PostRequest $request, Post $post)
     {
-        throw_if(auth()->user()->hasRole('user') && $request->is_published == true,
-            ValidationException::withMessages(['is_published' => 'User cannot publish post'])
-        );
-
         $post->update([
             'title' => $request->title,
             'post_text' => $request->post_text,

@@ -20,6 +20,8 @@ class PostControllerTest extends TestCase
 
         $response = $this->actingAs($user)->delete(route('posts.destroy', $post));
 
+        $this->assertDatabaseCount('posts', 1);
+
         $response->assertForbidden();
     }
 
@@ -87,7 +89,7 @@ class PostControllerTest extends TestCase
 
         $this->assertDatabaseCount('posts', 0);
 
-        $response->assertSessionHasErrors(['is_published' => 'User cannot publish post']);
+        $response->assertSessionHasErrors(['is_published' => 'The is published field is prohibited.']);
     }
 
     public function testUserCannotSetPostPublishedWhenEditing()
@@ -106,7 +108,7 @@ class PostControllerTest extends TestCase
             'is_published' => false
         ]);
 
-        $response->assertSessionHasErrors(['is_published' => 'User cannot publish post']);
+        $response->assertSessionHasErrors(['is_published' => 'The is published field is prohibited.']);
     }
 
     public function testPublisherCanSetPostPublishedWhenCreating()
