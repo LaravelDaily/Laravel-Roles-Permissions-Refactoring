@@ -9,7 +9,7 @@ class AddRoleIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('roles_id')->default('1')->after('password');
+            $table->foreignId('role_id')->default('1')->after('password');
         });
 
         Artisan::call('db:seed', [
@@ -18,7 +18,7 @@ class AddRoleIdToUsersTable extends Migration
         ]);
 
         \App\Models\User::where('is_admin', true)
-            ->update(['roles_id' => 3]);
+            ->update(['role_id' => 3]);
 
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('is_admin');

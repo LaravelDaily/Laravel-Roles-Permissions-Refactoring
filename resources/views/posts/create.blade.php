@@ -34,7 +34,7 @@
                                     name="post_text">{{ old('post_text') }}</textarea>
                         </div>
 
-                        @if(auth()->user()->hasRole('admin') || auth()->user()->hasRole('publisher'))
+                        @if(auth()->user()->role_id == \App\Models\User::ROLE_ADMIN || auth()->user()->role_id == \App\Models\User::ROLE_PUBLISHER)
                             <div class="flex mt-4">
                                 <x-label for="is_published" :value="__('Is published')"/>
 

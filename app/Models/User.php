@@ -42,13 +42,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function roles()
+    CONST ROLE_USER = 1;
+    CONST ROLE_PUBLISHER = 2;
+    CONST ROLE_ADMIN = 3;
+
+    public function role()
     {
         return $this->belongsTo(Role::class);
-    }
-
-    public function hasRole($roleName)
-    {
-        return $this->roles()->first()->name === $roleName;
     }
 }
