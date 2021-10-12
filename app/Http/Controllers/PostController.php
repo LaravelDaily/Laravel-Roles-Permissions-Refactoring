@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 
 class PostController extends Controller
@@ -27,7 +26,11 @@ class PostController extends Controller
 
     public function store(PostRequest $request)
     {
-        Post::create($request->validated());
+        Post::create([
+            'title' => $request->title,
+            'post_text' => $request->post_text,
+            'is_published' => (bool)$request->is_published,
+        ]);
 
         return redirect()->route('posts.index');
     }
@@ -44,7 +47,11 @@ class PostController extends Controller
 
     public function update(PostRequest $request, Post $post)
     {
-        $post->update($request->validated());
+        $post->update([
+            'title' => $request->title,
+            'post_text' => $request->post_text,
+            'is_published' => (bool)$request->is_published,
+        ]);
 
         return redirect()->route('posts.index');
     }

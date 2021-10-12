@@ -41,7 +41,7 @@
                                                 href="{{ route('posts.edit', $post) }}">
                                             Edit
                                         </a>
-                                        @if(auth()->user()->is_admin)
+                                        @if(auth()->user()->role_id == \App\Models\User::ROLE_ADMIN)
                                             <form method="POST" action="{{ route('posts.destroy', $post) }}"
                                                   onsubmit="return confirm('Are you sure?');">
                                                 @csrf
