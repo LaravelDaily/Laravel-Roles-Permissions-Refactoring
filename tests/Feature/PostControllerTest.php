@@ -96,9 +96,10 @@ class PostControllerTest extends TestCase
 
         $post = Post::factory()->create();
 
-        $response = $this->actingAs($user)->put(route('posts.update', $post, true), [
+        $response = $this->actingAs($user)->put(route('posts.update', $post),
+            array_merge($post->toArray(), [
             'is_published' => true,
-        ]);
+        ]));
 
         $this->assertDatabaseHas('posts', [
             'title' => $post->title,
@@ -150,9 +151,10 @@ class PostControllerTest extends TestCase
 
         $post = Post::factory()->create();
 
-        $response = $this->actingAs($user)->put(route('posts.update', $post), [
+        $response = $this->actingAs($user)->put(route('posts.update', $post),
+            array_merge($post->toArray(), [
             'is_published' => true,
-        ]);
+        ]));
 
         $this->assertDatabaseHas('posts', [
             'title' => $post->title,
@@ -166,10 +168,10 @@ class PostControllerTest extends TestCase
 
         $post = Post::factory()->create();
 
-        $response = $this->actingAs($user)->put(route('posts.update', $post, true), [
-            'title' => 'changed',
+        $response = $this->actingAs($user)->put(route('posts.update', $post),
+            array_merge($post->toArray(), [
             'is_published' => true,
-        ]);
+        ]));
 
         $this->assertDatabaseHas('posts', [
             'title' => $post->title,
