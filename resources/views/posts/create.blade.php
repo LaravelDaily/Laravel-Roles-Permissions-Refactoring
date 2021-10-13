@@ -34,7 +34,7 @@
                                     name="post_text">{{ old('post_text') }}</textarea>
                         </div>
 
-                        @can('publish')
+                        @can('post_publish')
                             <div class="flex mt-4">
                                 <x-label for="is_published" :value="__('Is published')"/>
 

@@ -21,6 +21,6 @@ class PermissionsSeeder extends Seeder
 
         Role::findOrFail(User::ROLE_ADMIN)->permissions()->sync([1, 2, 3, 4, 5]);
 
-        Role::findOrFail(User::ROLE_PUBLISHER)->permissions()->sync([2, 4, 5]);
+        Role::findOrFail(User::ROLE_PUBLISHER)->permissions()->sync([1, 2, 4, 5]);
     }
 }

@@ -19,7 +19,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-        Post::class => PostPolicy::class,
+//        Post::class => PostPolicy::class,
     ];
 
     /**
@@ -36,7 +36,9 @@ class AuthServiceProvider extends ServiceProvider
         if (\Schema::hasTable('permissions')) {
             foreach (Permission::all() as $permission) {
                 Gate::define($permission->name, function ($user) use ($permission) {
-                    return $permission->whereRelation('roles', 'id', $user->role_id)->exists();
+                    return (bool) $permission->where('name', $permission->name)->whereHas('roles', function (Builder $query) use ($user) {
+                        return $query->where('id', $user->role_id);
+                    })->exists();
                 });
             }
         }
