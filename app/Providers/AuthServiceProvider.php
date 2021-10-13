@@ -33,10 +33,12 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('publish', [PostPolicy::class, 'publish']);
 
-        foreach (Permission::all() as $permission) {
-            Gate::define($permission->name, function ($user) use ($permission) {
-                return $permission->whereRelation('roles', 'id', $user->role_id)->exists();
-            });
+        if (\Schema::hasTable('permissions')) {
+            foreach (Permission::all() as $permission) {
+                Gate::define($permission->name, function ($user) use ($permission) {
+                    return $permission->whereRelation('roles', 'id', $user->role_id)->exists();
+                });
+            }
         }
     }
 }
