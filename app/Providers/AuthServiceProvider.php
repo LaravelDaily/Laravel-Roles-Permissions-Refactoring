@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Post;
+use App\Models\Role;
+use App\Models\Permission;
 use App\Policies\PostPolicy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -29,5 +32,11 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('publish', [PostPolicy::class, 'publish']);
+
+        foreach (Permission::all() as $permission) {
+            Gate::define($permission->name, function ($user) use ($permission) {
+                return $permission->whereRelation('roles', 'id', $user->role_id)->exists();
+            });
+        }
     }
 }
