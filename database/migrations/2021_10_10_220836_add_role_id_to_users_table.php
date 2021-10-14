@@ -9,7 +9,7 @@ class AddRoleIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('role_id')->default('1')->after('password');
+            $table->foreignId('role_id')->default('1')->constrained()->after('password');
         });
 
         Artisan::call('db:seed', [

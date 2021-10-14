@@ -10,11 +10,13 @@
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
 
+                    @can('post_create')
                     <a
                             class="inline-flex items-center px-4 py-2 mb-4 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent ring-gray-300 transition duration-150 ease-in-out hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring disabled:opacity-25"
                             href="{{ route('posts.create') }}">
                         Create post
                     </a>
+                    @endcan
 
                     <div class="overflow-hidden overflow-x-auto min-w-full align-middle sm:rounded-md">
                         <table class="min-w-full border divide-y divide-gray-200">
@@ -36,12 +38,14 @@
                                         <a href="{{ route('posts.show', $post) }}" class="hover:underline">{{ $post->title }}</a>
                                     </td>
                                     <td class="flex px-6 py-4 text-sm leading-5 text-gray-900 whitespace-no-wrap">
+                                        @can('post_edit')
                                         <a
                                                 class="inline-flex items-center px-4 py-2 mr-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent ring-gray-300 transition duration-150 ease-in-out hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring disabled:opacity-25"
                                                 href="{{ route('posts.edit', $post) }}">
                                             Edit
                                         </a>
-                                        @can('delete', $post)
+                                        @endcan
+                                        @can('post_delete')
                                             <form method="POST" action="{{ route('posts.destroy', $post) }}"
                                                   onsubmit="return confirm('Are you sure?');">
                                                 @csrf

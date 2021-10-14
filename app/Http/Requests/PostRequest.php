@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PostRequest extends FormRequest
@@ -12,7 +13,7 @@ class PostRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'post_text' => ['required'],
-            'is_published' => ['boolean', Rule::when(auth()->user()->cannot('publish'), 'prohibited')]
+            'is_published' => ['boolean', Rule::when(Gate::denies('post_publish'), 'prohibited')]
         ];
     }
 

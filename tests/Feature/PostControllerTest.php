@@ -182,4 +182,89 @@ class PostControllerTest extends TestCase
 
         $response->isRedirect(route('posts.index'));
     }
+
+    public function testViewerCanViewPostsList()
+    {
+        $user = User::factory()->viewer()->create();
+
+        $post = Post::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('posts.index'));
+
+        $response->assertOk()
+            ->assertSeeText($post->title);
+    }
+
+    public function testViewerCanViewPost()
+    {
+        $user = User::factory()->viewer()->create();
+
+        $post = Post::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('posts.show', $post));
+
+        $response->assertOk()
+            ->assertSeeTextInOrder([$post->title, $post->post_text]);
+    }
+
+    public function testUserDoesntSeeCreateEditDeleteButtons()
+    {
+        $user = User::factory()->viewer()->create();
+
+        $post = Post::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('posts.index'));
+
+        $response->assertOk()
+            ->assertSeeText($post->title)
+            ->assertDontSeeText('Create')
+            ->assertDontSeeText('Edit')
+            ->assertDontSeeText('Delete');
+    }
+
+    public function testViewerCannotAccessCreatePostPage()
+    {
+        $user = User::factory()->viewer()->create();
+
+        $response = $this->actingAs($user)->get(route('posts.create'));
+
+        $response->assertForbidden();
+    }
+
+    public function testViewerCannotAccessEditPostPage()
+    {
+        $user = User::factory()->viewer()->create();
+
+        $post = Post::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('posts.edit', $post));
+
+        $response->assertForbidden();
+    }
+
+    public function testViewerCannotPostToStorePostRoute()
+    {
+        $user = User::factory()->viewer()->create();
+
+        $response = $this->actingAs($user)->post(route('posts.store'), [
+            'title' => 'post title',
+            'post_text' => 'post_text'
+        ]);
+
+        $response->assertForbidden();
+    }
+
+    public function testViewerCannotPostToUpdatePostRoute()
+    {
+        $user = User::factory()->viewer()->create();
+
+        $post = Post::factory()->create();
+
+        $response = $this->actingAs($user)->put(route('posts.update', $post), [
+            'title' => 'post title',
+            'post_text' => 'post_text'
+        ]);
+
+        $response->assertForbidden();
+    }
 }

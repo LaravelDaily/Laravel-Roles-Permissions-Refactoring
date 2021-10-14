@@ -50,7 +50,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role_id' => 3,
+                'role_id' => User::ROLE_ADMIN,
             ];
         });
     }
@@ -59,7 +59,16 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'role_id' => 2,
+                'role_id' => User::ROLE_PUBLISHER,
+            ];
+        });
+    }
+
+    public function viewer()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'role_id' => User::ROLE_VIEWER,
             ];
         });
     }
