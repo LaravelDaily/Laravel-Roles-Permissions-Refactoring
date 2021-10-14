@@ -11,7 +11,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        abort_if(Gate::denies('post_view'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorize('post_view');
 
         $posts = Post::latest()->paginate();
 
@@ -20,14 +20,14 @@ class PostController extends Controller
 
     public function create()
     {
-        abort_if(Gate::denies('post_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorize('post_create');
 
         return view('posts.create');
     }
 
     public function store(PostRequest $request)
     {
-        abort_if(Gate::denies('post_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorize('post_create');
 
         Post::create([
             'title' => $request->title,
@@ -40,21 +40,21 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        abort_if(Gate::denies('post_view'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorize('post_view');
 
         return view('posts.show', compact('post'));
     }
 
     public function edit(Post $post)
     {
-        abort_if(Gate::denies('post_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorize('post_edit');
 
         return view('posts.edit', compact('post'));
     }
 
     public function update(PostRequest $request, Post $post)
     {
-        abort_if(Gate::denies('post_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorize('post_edit');
 
         $post->update([
             'title' => $request->title,
@@ -67,7 +67,7 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        abort_if(Gate::denies('post_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->authorize('post_delete');
 
         $post->delete();
 
