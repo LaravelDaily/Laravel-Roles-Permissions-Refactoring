@@ -12,23 +12,6 @@ class PostControllerTest extends TestCase
 {
     use LazilyRefreshDatabase;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed();
-
-        if (\Schema::hasTable('permissions')) {
-            foreach (\App\Models\Permission::all() as $permission) {
-                \Gate::define($permission->name, function ($user) use ($permission) {
-                    return (bool) $permission->where('name', $permission->name)->whereHas('roles', function (\Illuminate\Database\Eloquent\Builder $query) use ($user) {
-                        return $query->where('id', $user->role_id);
-                    })->exists();
-                });
-            }
-        }
-    }
-
     public function testNonAdminUserCannotDeletePost()
     {
         $post = Post::factory()->create();
@@ -49,7 +32,6 @@ class PostControllerTest extends TestCase
         $user = User::factory()->admin()->create();
 
         $response = $this->actingAs($user)->delete(route('posts.destroy', $post));
-//        dd(\DB::table('permissions')->get());
 
         $this->assertDeleted($post);
 
