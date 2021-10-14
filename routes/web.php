@@ -20,6 +20,7 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('posts', \App\Http\Controllers\PostController::class);
+    Route::resource('roles', \App\Http\Controllers\RoleController::class)->middleware(['role:Admin']);
 
     Route::get('profile', [\App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
