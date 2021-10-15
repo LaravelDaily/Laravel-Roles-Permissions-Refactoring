@@ -20,6 +20,11 @@ class UserSeeder extends Seeder
             'email' => 'publish@test.com'
         ]);
 
+        User::factory()->viewer()->create([
+            'name' => 'viewer',
+            'email' => 'viewer@test.com'
+        ]);
+
         User::factory()->create([
             'name' => 'test user',
             'email' => 'test@test.com'

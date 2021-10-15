@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Policies\PermissionPolicies;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -24,7 +23,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        PermissionPolicies::define();
     }
 }
